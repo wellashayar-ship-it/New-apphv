@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "DailyCheck": {
+      "title": "DailyCheck",
+      "description": "A daily check-in entry for mood and sleep.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "description": "ISO date string (YYYY-MM-DD)" },
+        "mood": { "type": "integer", "description": "Mood rating from 1 to 5" },
+        "sleep": { "type": "number", "description": "Hours of sleep" },
+        "timestamp": { "type": "string", "description": "ISO timestamp of the check-in" }
+      },
+      "required": ["date", "mood", "sleep", "timestamp"]
+    },
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user recovery status and premium info.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "isPremium": { "type": "boolean" },
+        "lastRelapseDate": { "type": "string", "format": "date-time" },
+        "streakDays": { "type": "integer" },
+        "longestStreak": { "type": "integer" },
+        "accountabilityPartnerUid": { "type": "string" }
+      },
+      "required": ["uid", "email", "isPremium"]
+    },
+    "JournalEntry": {
+      "title": "Journal Entry",
+      "description": "Daily user notes and relapse tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "content": { "type": "string" },
+        "mood": { "type": "string" },
+        "relapse": { "type": "boolean" },
+        "aiRiskScore": { "type": "integer" }
+      },
+      "required": ["userId", "date", "content", "relapse"]
+    },
+    "DailyTask": {
+      "title": "Daily Recovery Task",
+      "description": "Science-based tasks for the 90-day program.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "dayNumber": { "type": "integer" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "userId": { "type": "string" }
+      },
+      "required": ["dayNumber", "title", "completed", "userId"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "Messages between user and Mentor AI.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "role", "content", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data."
+    },
+    "/users/{userId}/journal/{entryId}": {
+      "schema": "JournalEntry",
+      "description": "User's daily journal and relapse logs."
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "DailyTask",
+      "description": "User's progress in the 90-day program."
+    },
+    "/users/{userId}/chat/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Chat history with Mentor AI."
+    },
+    "/users/{userId}/daily_checks/{checkId}": {
+      "schema": "DailyCheck",
+      "description": "Daily mood and sleep tracking data."
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Mentor: Freedom Protocol",
+  "description": "A psychological recovery tool to help users overcome addiction through AI coaching, real-time tracking, and guided breathing.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
